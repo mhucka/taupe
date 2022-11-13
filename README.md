@@ -1,9 +1,9 @@
-# Template for my software READMEs
+# Exult
 
-This is a template README file for my software repositories.  This first paragraph of the README will summarize the software in a concise fashion, preferably using no more than one or two sentences.
+A simple program to extract the URLs of your tweets, retweets, replies, and likes from a personal Twitter archive.
 
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg?style=flat-square)](https://choosealicense.com/licenses/bsd-3-clause)
-[![Latest release](https://img.shields.io/github/v/release/mhucka/template.svg?style=flat-square&color=b44e88)](https://github.com/mhucka/template/releases)
+[![Latest release](https://img.shields.io/github/v/release/mhucka/exult.svg?style=flat-square&color=b44e88)](https://github.com/mhucka/exult/releases)
 
 
 ## Table of contents
@@ -15,66 +15,84 @@ This is a template README file for my software repositories.  This first paragra
 * [Getting help](#getting-help)
 * [Contributing](#contributing)
 * [License](#license)
-* [Authors and history](#authors-and-history)
 * [Acknowledgments](#authors-and-acknowledgments)
 
 
 ## Introduction
 
-This repository is a GitHub template repostory for creating software project repositories.
+When you [download your personal Twitter archive](https://help.twitter.com/en/managing-your-account/how-to-download-your-twitter-archive), what you receive is a [ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file. The contents are complete, but not in a convenient format for doing something with them. For example, you may want to take snapshots of your tweets as they appear on Twitter, or send the URLs to the [Wayback Machine at the Internet Archive](https://archive.org/web/), or do something else with the URLs. For tasks like that, you need to extract URLs from your personal Twitter archive. That's the purpose of Exult.
 
-This README file is in Markdown format, and is meant to provide a template for README files as well an illustration of what the README file can be expected to look like.  For a software project, this [Introduction](#introduction) section &ndash; which you are presently reading &ndash; should provide background for the project, a brief explanation of what the project is about, and optionally, pointers to resources that can help orient readers.  Ideally, this section should be short.
+_Exult_ (a loose acronym of <ins><b>ex</b></ins>tract <ins><b>U</b></ins>R<ins><b>L</b></ins>s from <ins><b>T</b></ins>witter) takes a Twitter archive ZIP file and extracts the URLs corresponding to your original tweets, retweets, replies, and liked tweets. It can produce output in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format or as a [Markdown](https://en.wikipedia.org/wiki/Markdown) table.
 
 
 ## Installation
 
-Begin this section by mentioning any prerequisites that may be important for users to have before they can use your software.  Examples include hardware and operating system requirements.
-
-Next, provide step-by-step instructions for installing the software, preferably with command examples that can be copy-pasted by readers into their software environments. For example:
-
-```bash
-a command-line command here
-```
-
-Sometimes, subsections may be needed for different operating systems or particularly complicated installations.
- 
 
 ## Usage
 
-This [Usage](#usage) section would explain more about how to run the software, what kind of behavior to expect, and so on.
+Assuming the installation process described above was successful, you should end up with a program named `exult` in a location where software is normally installed on your computer.  Running `exult` should be as simple as running any other terminal command. For example, the following command should result in a helpful summary being printed to your terminal:
+```shell
+exult --help
+```
 
-### _Basic operation_
 
-Begin with the simplest possible example of how to use your software.  Provide example command lines and/or screen images, as appropriate, to help readers understand how the software is expected to be used.  Many readers are likely to look for command lines they can copy-paste directly from your explanations, so it's best to keep that in mind as you write examples.
+### Basic usage
 
-### _Additional options_
+If not given the option `--help` or `--version` (explained below), `exult` requires one argument on the command line: the path to a Twitter archive file. For example, the following command,
+```shell
+exult /path/to/your/twitter-archive.zip
+```
+will produce output on your terminal that looks like this:
+```text
+2022-11-05,18:57:41 +0000,tweet,https://twitter.com/someuser/status/1588948107139895296,
+2022-11-06,12:40:20 +0000,retweet,https://twitter.com/someuser/status/1284949108569235206,
+...
+```
 
-Some projects need to communicate additional information to users and can benefit from additional sections in the README file.  It's difficult to give specific instructions &ndash; a lot depends on your software, your intended audience, etc.  Use your judgement and ask for feedback from users or colleagues to help figure out what else is worth explaining.
+To save this output to a file, you can use `exult`'s `--output` option (described below) or simply redirect stdout to a file. To change the format of the output, use the option `--format` (also described below).
+
+
+### The structure of the output
+
+No matter whether the output is CSV or Markdown, the structure is always tabular. Each row of the table corresponds to a type of event in the Twitter timeline: a tweet, a retweet, a reply to another tweet, or a "like" of a tweet. The five columns of the table provide details about the event. The following is a summary of the structure:
+
+| Col. 1 | Col. 2 | Col. 3 | Col. 4 | Col. 5 |
+|--------|--------|--------|--------|--------|
+| date   | time   | `tweet`, `reply`, `retweet`, `like` | URL of original tweet, reply, or (your) retweet | URL of replied-to tweet, original retweeted tweet, or liked tweet |
+
+Every row of the table has a value for the first three columns. The fourth column has a value for original tweets, replies to other people's tweets, or retweets of other people's tweets; it does not have a value for "likes" (because the URLs of liked tweets are in the fifth column). The fifth column only has a value when the event involves _someone else_'s tweet: replies to other people's tweets, retweets, and "likes".
+
+
+### Options recognized by `exult`
+
+Running `exult` with the option `--help` will make it print help text and exit without doing anything else.
+
+The option `--format` controls what kind of output is written by `exult`. A value of `csv` (the default) makes it produce [comma-separated value](https://en.wikipedia.org/wiki/Comma-separated_values) format; a value of `markdown` or `md` makes it produce [Markdown](https://en.wikipedia.org/wiki/Markdown).
+
+The option `--output` controls where `exult` writes the output. If not given, or if the value is `-`, the output is written to the terminal (stdout). Otherwise, the value can be a file to tell `exult` to write the CSV or Markdown content to a file.
+
+If given the `--version` option, this program will print the version and other information, and exit without doing anything else.
+
+If given the `--debug` argument, `exult` program will output a detailed trace of what it is doing. The debug trace will be sent to the given destination, which can be `-` to indicate console output, or a file path to send the output to a file.
 
 
 ## Known issues and limitations
 
-In this section, summarize any notable issues and/or limitations of your software.  If none are known yet, this section can be omitted (and don't forget to remove the corresponding entry in the [Table of Contents](#table-of-contents) too); alternatively, you can leave this section in and write something along the lines of "none are known at this time".
-
+This program assumes that the Twitter archive ZIP file is in the format which Twitter produced in mid-November 2022. Twitter probably used a different format in the past, and may change the format again in the future, so `exult` may or may not work on Twitter archives obtained in different historical periods.
 
 ## Getting help
 
-Inform readers of how they can contact you, or at least how they can report problems they may encounter.  This may simply be a request to use the issue tracker on your repository, but many projects have associated chat or mailing lists, and this section is a good place to mention those.
+If you find a problem or have a request or suggestion, please submit it in [the GitHub issue tracker](https://github.com/mhucka/exult/issues) for this repository.
 
 
 ## Contributing
 
-This section is optional; if your repository is for a project that accepts open-source contributions, then this section is where you can mention how people can offer contributions, and point them to your guidelines for contributing.  (If you delete this section, don't forget to remove the corresponding entry in the [Table of Contents](#table-of-contents) too.)
+I would be happy to receive your help and participation if you are interested.  Everyone is asked to read and respect the [code of conduct](CONDUCT.md) when participating in this project.  Please feel free to [report issues](https://github.com/mhucka/exult/issues) or do a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests) to fix bugs or add new features.
 
 
 ## License
 
 This software is Copyright (C) 2022, by Michael Hucka and the California Institute of Technology (Pasadena, California, USA).  This software is freely distributed under a 3-clause BSD type license.  Please see the [LICENSE](LICENSE) file for more information.
-
-
-## Authors and history
-
-In this section, list the authors and contributors to your software project.  Adding additional notes here about the history of the project can make it more interesting and compelling.  This is also a place where you can acknowledge other contributions to the work and the use of other people's software or tools.
 
 
 ## Acknowledgments
