@@ -1,17 +1,22 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: Mike's Software Repository Template
+title: exult
 authors:
   - family-names: Hucka
     given-names: Michael
     orcid: https://orcid.org/0000-0001-9105-5960
-abstract: Template repository for software projects
-repository-code: "https://github.com/mhucka/template"
+abstract: Extract URLs from Twitter Archive
+repository-code: "https://github.com/mhucka/exult"
 type: software
-version: 1.0.3
-license-url: "https://github.com/mhucka/template/blob/main/LICENSE"
+version: 0.0.0
+license-url: "https://github.com/mhucka/exult/blob/main/LICENSE"
 keywords:
-  - template
+  - Twitter
+  - archiving
+  - data processing
+  - CSV
+  - comma separated values
+  - JSON
   - software
 date-released: 2022-11-13
 
