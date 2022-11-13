@@ -1,0 +1,44 @@
+# =========================================================== -*- conf-toml -*-
+# @file    .flake8
+# @brief   Project-wide Flake8 configuration
+# @created 2022-05-10
+# @license Please see the file named LICENSE in the project directory
+# @website https://github.com/caltechlibrary/foliage
+#
+# Note: as of version 4.0, flake8 does NOT read global configuration files
+# from ~/.flake8 or ~/.config/flake8.  If you had such a config file of your
+# own, and you're looking at this config file and wondering how the two will
+# interaction, the answer is simple: they won't.  Only this file matters.
+#
+# The following flake8 plugins are assumed to be installed:
+#   flake8-bugbear
+#   flake8-builtins
+#   flake8-comprehensions
+#   flake8-executable
+#   flake8-implicit-str-concat
+#   flake8-pie
+#   flake8_simplify
+# =============================================================================
+
+[flake8]
+# I try to stick to 80 chars, but sometimes it's more readable to go longer.
+max-line-length = 90
+
+ignore =
+    # We prefer to put spaces around the = in keyword arg lists.
+    E251,
+    # We prefer two lines between methods of a class.
+    E303,
+    # Sometimes we want to align keywords, and these rules run counter to it.
+    E271,
+    E221,
+    # In some situations, it's more readable to omit spaces around operators
+    # and colons.
+    E203,
+    E226,
+    # According to Flake8 docs at https://www.flake8rules.com/rules/W503.html
+    # line breaks *should* come before a binary operator, but as of version 4,
+    # Flake8 still flags the breaks as bad. So:
+    W503
+    # I disagree wit this one.
+    B005
