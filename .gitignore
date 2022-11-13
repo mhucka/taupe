@@ -1,0 +1,21 @@
+# =========================================================== -*- gitignore -*-
+# @file    .gitignore
+# @brief   Files and patterns for files and subdirs that git should ignore
+# @date    CREATION_DATE
+# @license Please see the file named LICENSE in the project directory
+# @website https://github.com/mhucka/PROJECT
+#
+# The approach I suggest is to add ONLY project-specific rules here. Put
+# rules that apply to your way of doing things (and the particular tools you
+# happen to use) into a global git ignore file as described in the section
+# "Configuring ignored files for all repositories on your computer" here:
+# https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# (accessed on 2022-07-14). For example, Emacs checkpoint and backup files are
+# things that are not specific to a given project; rather, Emacs users will
+# see them created everywhere, in all projects, because they're a byproduct
+# of using Emacs, not a consequence of working on a particular project. Thus,
+# they belong in a user's global ignores list, not in this project .gitignore.
+#
+# A useful starting point for global .gitignore file contents can be found at
+# https://github.com/github/gitignore/tree/main/Global (as of 2022-07-14).
+# =============================================================================
