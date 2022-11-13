@@ -19,3 +19,21 @@
 # A useful starting point for global .gitignore file contents can be found at
 # https://github.com/github/gitignore/tree/main/Global (as of 2022-07-14).
 # =============================================================================
+
+# Python-specific things to ignore (relevant because this is a Python project).
+# .............................................................................
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.pytest_cache
+.coverage
+
+# Project-specific things to ignore:
+# .............................................................................
+
+build
+dist
+*.tmp
