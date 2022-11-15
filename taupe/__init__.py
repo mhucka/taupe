@@ -1,5 +1,5 @@
 '''
-Exult: Extract the URLs from your personal Twitter archive
+Taupe: Extract the URLs from your personal Twitter archive
 
 Authors
 -------
@@ -22,8 +22,8 @@ Please see the file "LICENSE" for more information.
 #  ╰────────────────────── Notice ── Notice ── Notice ─────────────────────╯
 
 __version__     = '0.0.1'
-__description__ = 'Exult: extract URLs from a Twitter archive'
-__url__         = 'https://github.com/mhucka/exult'
+__description__ = 'Taupe: Twitter archive URL parser'
+__url__         = 'https://github.com/mhucka/taupe'
 __author__      = 'Mike Hucka'
 __email__       = 'mhucka@caltech.edu'
 __license__     = 'BSD 3-clause license'

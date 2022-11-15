@@ -1,15 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: exult
+title: Taupe
 authors:
   - family-names: Hucka
     given-names: Michael
     orcid: https://orcid.org/0000-0001-9105-5960
-abstract: Extract URLs from Twitter Archive
-repository-code: "https://github.com/mhucka/exult"
+abstract: Twitter archive URL parser
+repository-code: "https://github.com/mhucka/taupe"
 type: software
 version: 0.0.0
-license-url: "https://github.com/mhucka/exult/blob/main/LICENSE"
+license-url: "https://github.com/mhucka/taupe/blob/main/LICENSE"
 keywords:
   - Twitter
   - archiving
