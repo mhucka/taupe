@@ -200,10 +200,9 @@ def stop(msg, err = ExitCode.exception):
     '''Print an error message and exit with an exit code.'''
     log('printing to terminal: ' + msg)
     from rich import print
-    from rich.panel import Panel
+    from rich.text import Text
     from rich.style import Style
-    width = 79 if len(msg) > 75 else (len(msg) + 4)
-    print(Panel(msg, style = Style.parse('red'), width = width))
+    print(Text(msg, style = Style.parse('red')))
     log(f'exiting with exit code {int(err)}.')
     sys.exit(int(err))
 
