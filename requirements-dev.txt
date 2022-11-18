@@ -1,0 +1,22 @@
+# =============================================================================
+# @file    requirements-dev.txt
+# @brief   Python dependencies for Waystation for development
+# @created 2022-11-18
+# @license Please see the file named LICENSE in the project directory
+# @website https://github.com/mhucka/taupe
+# =============================================================================
+
+-r requirements.txt
+
+pytest      >= 6.2.5
+pytest-cov  >= 3.0.0
+pytest-mock >= 3.7.0
+
+flake8                     >= 4.0.1
+flake8-bugbear             >= 22.4.25
+flake8-builtins            >= 1.5.3
+flake8-comprehensions      >= 3.8.0
+flake8-executable          >= 2.1.1
+flake8_implicit_str_concat >= 0.3.0
+flake8-pie                 >= 0.15.0
+flake8-simplify            >= 0.19.2
