@@ -6,7 +6,7 @@
   "codeRepository": "https://github.com/mhucka/taupe",
   "issueTracker": "https://github.com/mhucka/taupe/issues",
   "license": "https://github.com/mhucka/taupe/blob/master/LICENSE",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": [
     {
       "@type": "Person",

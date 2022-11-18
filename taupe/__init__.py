@@ -22,7 +22,7 @@ Please see the file "LICENSE" for more information.
 #  ╰────────────────────── Notice ── Notice ── Notice ─────────────────────╯
 
 __version__     = '0.0.1'
-__description__ = 'Taupe: Twitter archive URL parser'
+__description__ = 'Taupe: a tool to extract URLs from your personal Twitter archive'
 __url__         = 'https://github.com/mhucka/taupe'
 __author__      = 'Mike Hucka'
 __email__       = 'mhucka@caltech.edu'
