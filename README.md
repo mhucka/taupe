@@ -27,6 +27,50 @@ _Taupe_ (a loose acronym of <ins><b>T</b></ins>witter <ins><b>a</b></ins>rchive 
 
 ## Installation
 
+There are multiple ways of installing Taupe.  Please choose the alternative that suits you.
+
+### _Alternative 1: installing Taupe using `pipx`_
+
+You can use [pipx](https://pypa.github.io/pipx/) to install Taupe. Pipx will install it into a separate Python environment that isolates the dependencies needed by Taupe from other Python programs on your system, and yet the resulting `taupe` command wil be executable from any shell &ndash; like any normal program on your computer. If you do not already have `pipx` on your system, it can be installed in a variety of easy ways and it is best to consult [Pipx's installation guide](https://pypa.github.io/pipx/installation/) for instructions. Once you have pipx on your system, you can install Taupe with the following command:
+```sh
+pipx install taupe
+```
+
+Pipx can also let you run Taupe directly using `pipx run taupe`, although in that case, you must always prefix every Taupe command with `pipx run`.  Consult the [documentation for `pipx run`](https://github.com/pypa/pipx#walkthrough-running-an-application-in-a-temporary-virtual-environment) for more information.
+
+
+### _Alternative 2: installing Taupe using `pip`_
+
+The instructions below assume you have a Python 3 interpreter installed on your computer.  Note that the default on macOS at least through 10.14 (Mojave) is Python **2** &ndash; please first install Python version 3 and familiarize yourself with running Python programs on your system before proceeding further.
+
+You should be able to install `taupe` with [`pip`](https://pip.pypa.io/en/stable/installing/) for Python&nbsp;3.  To install `taupe` from the [Python package repository (PyPI)](https://pypi.org), run the following command:
+```sh
+python3 -m pip install taupe
+```
+
+As an alternative to getting it from [PyPI](https://pypi.org), you can use `pip` to install `taupe` directly from GitHub:
+```sh
+python3 -m pip install git+https://github.com/mhucka/taupe.git
+```
+
+_If you already installed Taupe once before_, and want to update to the latest version, add `--upgrade` to the end of either command line above.
+
+
+### _Alternative 3: installing Taupe from sources_
+
+If  you prefer to install Taupe directly from the source code, you can do that too. To get a copy of the files, you can clone the GitHub repository:
+```sh
+git clone https://github.com/mhucka/taupe
+```
+
+Alternatively, you can download the files as a ZIP archive using this link directly from your browser using this link: <https://github.com/mhucka/taupe/archive/refs/heads/main.zip>
+
+Next, after getting a copy of the files,  run `setup.py` inside the code directory:
+```sh
+cd taupe
+python3 setup.py install
+```
+
 
 ## Usage
 
@@ -52,25 +96,25 @@ The output produced by `taupe` differs depending on whether you are extracting t
 
 #### Tweets
 
-When using `--extract tweets` (the default), `taupe` produces a table with five columns.  Each row of the table corresponds to a type of event in the Twitter timeline: a tweet, a retweet, a reply to another tweet, or a quote tweet. The five columns of the table provide details about the event. The following is a summary of the structure:
+When using `--extract tweets` (the default), `taupe` produces a table with four columns.  Each row of the table corresponds to a type of event in the Twitter timeline: a tweet, a retweet, a reply to another tweet, or a quote tweet. The values in the columns provide details about the event. The following is a summary of the structure:
 
-| Column&nbsp;1 | Column&nbsp;2 | Column 3 | Column 4 | Column 5 |
-|:-------------:|:-------------:|--------|--------|--------|
-| date of the tweet   | time of day  | The type; one of `tweet`, `reply`, `retweet`, or `quote` | The&nbsp;URL of the tweet | (For type `reply`, `retweet` or `quote`.) The URL of the original or source tweet |
+| Column&nbsp;1 | Column 3 | Column 4 | Column 5 |
+|:-------------:|----------|--------|--------|
+| tweet timestamp in ISO format  | The type; one of `tweet`, `reply`, `retweet`, or `quote` | The&nbsp;URL of the tweet | (For type `reply`, `retweet` or `quote`.) The URL of the original or source tweet |
 
-Every row of the table has a value for the first four columns. The fifth column only has a value when the event involves _someone else_'s tweet; i.e., for replies, retweets, and quote-tweets.
+Every row of the table has a value for the first three columns. The fourth column only has a value when the event involves _someone else_'s tweet; i.e., for replies, retweets, and quote-tweets.
 
 Here is an example of the output:
 ```text
-2022-11-05,18:57:41 +0000,tweet,https://twitter.com/twitter/status/1588948107139895296,
-2022-11-06,12:40:20 +0000,retweet,https://twitter.com/twitter/status/1284949108569235206,
+2022-11-05T18:57:00+00:00,tweet,https://twitter.com/twitter/status/1588948107139895296,
+2022-11-05T18:59:00+00:00,retweet,https://twitter.com/twitter/status/1588146224376463365,
 ...
 ```
 
 
 #### Likes
 
-When using the option `--extract likes`, the output will only contain one column: the URLs of the "liked" tweets. The reason `taupe` cannot provide the level of detail described above is that the Twitter archive format itself does not contain date/time information for "likes".
+When using the option `--extract likes`, the output will only contain one column: the URLs of the "liked" tweets. `taupe` cannot provide more detail because the Twitter archive format does not contain date/time information for "likes".
 
 Here is an example of the output when using `--extract likes` in combination with `--canonical-urls`:
 ```
@@ -91,10 +135,6 @@ The option `--output` controls where `taupe` writes the output. If the value giv
 If given the `--version` option, this program will print its version and other information, and exit without doing anything else.
 
 If given the `--debug` argument, `taupe` will output a detailed trace of what it is doing. The debug trace will be sent to the given destination, which can be `-` to indicate console output, or a file path to send the debug output to a file.
-
-### Summary
-
-
 
 
 ## Known issues and limitations
