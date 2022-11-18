@@ -20,3 +20,5 @@ flake8-executable          >= 2.1.1
 flake8_implicit_str_concat >= 0.3.0
 flake8-pie                 >= 0.15.0
 flake8-simplify            >= 0.19.2
+
+twine
