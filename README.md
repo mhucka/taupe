@@ -1,4 +1,4 @@
-# Taupe<img width="70em" align="right" src="https://github.com/mhucka/taupe/blob/main/.graphics/taupe-icon.png">
+# Taupe<img width="70em" align="right" src="https://raw.githubusercontent.com/mhucka/taupe/main/.graphics/taupe-icon.png">
 
 A simple program to extract the URLs of your tweets, retweets, replies, quote tweets, and "likes" from a personal Twitter archive.
 
