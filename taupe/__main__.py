@@ -42,52 +42,50 @@ from   .exit_codes import ExitCode
 )
 def main(canonical_urls = False, extract = 'E', output = 'O', version = False,
          debug = 'OUT', *archive_file):
-    '''
-    Taupe extracts URLs from your personal Twitter archive.
+    '''Taupe extracts URLs from your downloaded personal Twitter archive.
 
-This program takes a Twitter archive ZIP file as input, extracts the URLs
-corresponding to your tweets, retweets, replies, quote tweets, and liked
-tweets, and outputs the results in a comma-separated values (CSV) format.
-Taupe stands for "Twitter Archive Url ParsEr".
-
-Without any arguments, taupe extracts the URLs of tweets, replies, retweets
-and quote tweets. The path to the Twitter archive is expected to be passed
-on the command line, like this:
+At its most basic, taupe ("Twitter Archive Url ParsEr") expects to be given
+the path to a Twitter archive ZIP file from which it should extract the URLs
+of tweets, replies, retweets, and quote tweets, and print the results:
 
   taupe /path/to/twitter-archive.zip
 
-To extract the URLs of "liked" tweets instead (see the next section for the
-difference), use the optional argument --extract likes:
+If instead you want taupe to extract the URLs of "liked" tweets (see the next
+section for the difference), use the optional argument --extract likes:
 
   taupe --extract likes /path/to/twitter-archive.zip
 
-The URLs produced by `taupe` will be, by default, as they appear in the
-archive, which means they will have account names in them. If you prefer to
-normalize the URLs to the form https://twitter.com/twitter/status/TWEETID,
-use the optional argument --canonical-urls:
+The URLs produced by taupe will be, by default, as they appear in the archive,
+which means they will have account names in them. If you prefer to normalize
+the URLs to the form https://twitter.com/twitter/status/TWEETID, use the
+optional argument --canonical-urls:
 
   taupe --canonical-urls /path/to/twitter-archive.zip
+
+If you want to send the output to a file instead of the terminal, you can use
+the option --output and give it a destination file:
+
+  taupe --output /tmp/urls.txt --canonical-urls /path/to/twitter-archive.zip
 
 The structure of the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When using --extract tweets (the default), taupe produces a table with four
-columns.  Each row of the table corresponds to tweet of some kind. The values
-in the columns provide details:
+columns.  Each row of the table corresponds to a tweet of some kind. The
+values in the columns provide details:
 
   Column 1    Column 2    Column 3        Column 4
-  --------    --------    -------------   ---------------------
-  timestamp   tweet URL   type of tweet   URL of original tweet
+  --------    --------    -------------   ---------------------------------
+  timestamp   tweet URL   type of tweet   URL of quoted or replied-to tweet
 
-The last column only has values for replies and quote-tweets, and provides the
-URL of the tweet being replied to or the tweet being quoted (respectively).
-For retweets, the Twitter archive does not provide the URL data, and thus
-taupe cannot provide it. (And for normal tweets -- i.e., those that are not a
-reply, retweet, or quote-tweet -- there is understandably no value for this
-column.)
+The last column only has a value for replies and quote-tweets; in those cases,
+it provides the URL of the tweet being replied to or the tweet being quoted.
+(The fourth column does not have a value for retweets even though it would be
+desirable, because the Twitter archive -- strangely -- does not provide the
+URLs of retweeted tweets.)
 
 When using --extract likes, the output will only contain one column: the URLs
-of the "liked" tweets. Taupe cannot provide more details such as timestamps
+of the "liked" tweets. Taupe cannot provide more details (not even timestamps)
 because the Twitter archive format does not contain the information.
 
 Other options recognized by taupe
@@ -111,10 +109,8 @@ file.
 Return values
 ~~~~~~~~~~~~~
 
-This program exits with a return code of 0 if no problems are encountered.
-It returns a nonzero value otherwise, following the conventions used in shells
-such as bash which only understand return code values of 0 to 255. The
-following table lists the possible return values:
+Taupe exits with a return code of 0 if no problem is encountered. Otherwise,
+it returns a nonzero value. The following table lists the possible values:
 
     0 = success -- program completed normally
     1 = the user interrupted the program's execution
