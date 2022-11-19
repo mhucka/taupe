@@ -96,9 +96,9 @@ The output produced by `taupe` differs depending on whether you are extracting t
 
 When using `--extract tweets` (the default), `taupe` produces a table with four columns.  Each row of the table corresponds to a type of event in the Twitter timeline: a tweet, a retweet, a reply to another tweet, or a quote tweet. The values in the columns provide details about the event. The following is a summary of the structure:
 
-| Column&nbsp;1 | Column 3 | Column 4 | Column 5 |
+| Column&nbsp;1 | Column 2 | Column 3 | Column 4 |
 |:-------------:|----------|--------|--------|
-| tweet timestamp in ISO format  | The type; one of `tweet`, `reply`, `retweet`, or `quote` | The&nbsp;URL of the tweet | (For type `reply` or `quote`.) The URL of the original or source tweet |
+| tweet timestamp in ISO format  | The&nbsp;URL of the tweet | The type; one of `tweet`, `reply`, `retweet`, or `quote` | (For type `reply` or `quote`.) The URL of the original or source tweet |
 
 The last column only has a value for replies and quote-tweets; in those cases, the URL in the column refers to the tweet being replied to or the tweet being quoted.  The fourth column does not have a value for retweets even though it would be desirable, because the Twitter archive &ndash; strangely &ndash; does not provide the URLs of retweeted tweets.
 
