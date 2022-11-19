@@ -100,14 +100,16 @@ When using `--extract tweets` (the default), `taupe` produces a table with four 
 
 | Column&nbsp;1 | Column 3 | Column 4 | Column 5 |
 |:-------------:|----------|--------|--------|
-| tweet timestamp in ISO format  | The type; one of `tweet`, `reply`, `retweet`, or `quote` | The&nbsp;URL of the tweet | (For type `reply`, `retweet` or `quote`.) The URL of the original or source tweet |
+| tweet timestamp in ISO format  | The type; one of `tweet`, `reply`, `retweet`, or `quote` | The&nbsp;URL of the tweet | (For type `reply` or `quote`.) The URL of the original or source tweet |
 
-Every row of the table has a value for the first three columns. The fourth column only has a value when the event involves _someone else_'s tweet; i.e., for replies, retweets, and quote-tweets.
+The last column only has a value for replies and quote-tweets; in those cases, the URL in the column refers to the tweet being replied to or the tweet being quoted.  The fourth column does not have a value for retweets even though it would be desirable, because the Twitter archive &ndash; strangely &ndash; does not provide the URLs of retweeted tweets.
 
 Here is an example of the output:
 ```text
-2022-11-05T18:57:00+00:00,tweet,https://twitter.com/twitter/status/1588948107139895296,
-2022-11-05T18:59:00+00:00,retweet,https://twitter.com/twitter/status/1588146224376463365,
+2022-09-21T22:36:29+00:00,https://twitter.com/mhucka/status/1572716422857658368,quote,https://twitter.com/poppy_northcutt/status/1572714310077673472
+2022-10-10T22:04:20+00:00,https://twitter.com/mhucka/status/1579593701965582336,reply,https://twitter.com/arfon/status/1579572453726355456
+2022-10-14T04:17:01+00:00,https://twitter.com/mhucka/status/1580774654217625600,tweet
+2022-10-25T14:49:06+00:00,https://twitter.com/mhucka/status/1584919989307715586,retweet
 ...
 ```
 
@@ -121,7 +123,6 @@ Here is an example of the output when using `--extract likes` in combination wit
 https://twitter.com/twitter/status/1588146224376463365
 https://twitter.com/twitter/status/1588349144803905536
 https://twitter.com/twitter/status/1590475356976578560
-https://twitter.com/twitter/status/1583401617587863552
 ...
 ```
 
