@@ -136,6 +136,22 @@ If given the `--version` option, this program will print its version and other i
 
 If given the `--debug` argument, `taupe` will output a detailed trace of what it is doing. The debug trace will be sent to the given destination, which can be `-` to indicate console output, or a file path to send the debug output to a file.
 
+### _Summary of command-line options_
+
+The following table summarizes all the command line options available.
+
+| Short&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   | Long&nbsp;form&nbsp;opt&nbsp;&nbsp; | Meaning | Default |  |
+|---------|--------------------|----------------------|---------|---|
+| `-c`    | `--canonical-urls` | Normalize Twitter URLs | Leave URLs unnormalized| |
+| `-h`    | `--help`           | Print help info and exit | | |
+| `-e`_E_ | `--extract`_E_     | Extract `tweets` or `likes`? | `tweets` | |
+| `-o`_O_ | `--output`_O_      | Write output to file _O_ | Write to the terminal | ✦ |
+| `-V`    | `--version`        | Print program version info and exit | | |
+| `-@`_OUT_ | `--debug`_OUT_   | Debugging mode; write trace to _OUT_ | Normal mode | ⚐ |
+
+✦ &nbsp; To write to the console, you can also use the character `-` as the value of _O_; otherwise, _O_ must be the name of a file where the output should be written.<br>
+⚐ &nbsp; To write to the console, use the character `-` as the value of _OUT_; otherwise, _OUT_ must be the name of a file where the output should be written.
+
 
 ## Known issues and limitations
 
@@ -165,4 +181,12 @@ This software is Copyright (C) 2022, by Michael Hucka and the California Institu
 
 This work is a personal project developed by the author, using computing facilities and other resources of the [California Institute of Technology Library](https://www.library.caltech.edu).
 
-The [vector artwork](https://thenounproject.com/icon/bird-233023/) of a bird, used as the icon for this repository, was created by [Noe Araujo](https://thenounproject.com/noearaujo/) from the Noun Project.  It is licensed under the Creative Commons [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/) license.
+The [vector artwork](https://thenounproject.com/icon/bird-233023/) of a bird, used as the icon for this repository, was created by [Noe Araujo](https://thenounproject.com/noearaujo/) from the Noun Project.  It is licensed under the Creative Commons [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/) license. I manually changed the color to be a shade of taupe.
+
+Taupe uses multiple other open-source packages, without which it would have taken much longer to write the software. I want to acknowledge this debt. In alphabetical order, the packages are:
+* [Aenum](https://github.com/ethanfurman/aenum) &ndash; Python package for advanced enumerations
+* [CommonPy](https://github.com/caltechlibrary/commonpy) &ndash; a collection of commonly-useful Python functions
+* [Plac](https://github.com/ialbert/plac) &ndash; a command line argument parser
+* [Rich](https://github.com/Textualize/rich) &ndash; library for writing styled text to the terminal
+* [Sidetrack](https://github.com/caltechlibrary/sidetrack) &ndash; simple debug logging/tracing package
+* [Twine](https://github.com/pypa/twine) &ndash; utilities for publishing Python packages on [PyPI](https://pypi.org)
