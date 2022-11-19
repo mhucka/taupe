@@ -41,8 +41,6 @@ Pipx can also let you run Taupe directly using `pipx run taupe`, although in tha
 
 ### _Alternative 2: installing Taupe using `pip`_
 
-The instructions below assume you have a Python 3 interpreter installed on your computer.  Note that the default on macOS at least through 10.14 (Mojave) is Python **2** &ndash; please first install Python version 3 and familiarize yourself with running Python programs on your system before proceeding further.
-
 You should be able to install `taupe` with [`pip`](https://pip.pypa.io/en/stable/installing/) for Python&nbsp;3.  To install `taupe` from the [Python package repository (PyPI)](https://pypi.org), run the following command:
 ```sh
 python3 -m pip install taupe
