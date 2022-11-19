@@ -61,7 +61,7 @@ If  you prefer to install Taupe directly from the source code, you can do that t
 git clone https://github.com/mhucka/taupe
 ```
 
-Alternatively, you can download the files as a ZIP archive using this link directly from your browser using this link: <https://github.com/mhucka/taupe/archive/refs/heads/main.zip>
+Alternatively, you can download the software source files as a ZIP archive directly from your browser using this link: <https://github.com/mhucka/taupe/archive/refs/heads/main.zip>
 
 Next, after getting a copy of the files,  run `setup.py` inside the code directory:
 ```sh
