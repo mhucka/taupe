@@ -22,8 +22,17 @@ A simple program to extract the URLs of your tweets, retweets, replies, quote tw
 
 When you [download your personal Twitter archive](https://help.twitter.com/en/managing-your-account/how-to-download-your-twitter-archive), you receive a [ZIP](https://en.wikipedia.org/wiki/ZIP_(file_format)) file. The contents are not necessarily in a format convenient for doing something with them. For example, you may want to send the URLs to the [Wayback Machine at the Internet Archive](https://archive.org/web/) or do something else with the URLs. For tasks like that, you need to extract URLs from your Twitter archive. That's the purpose of Taupe.
 
-_Taupe_ (a loose acronym of <ins><b>T</b></ins>witter <ins><b>a</b></ins>rchive <ins><b>U</b></ins>RL <ins><b>p</b></ins>ars<ins><b>e</b></ins>r) takes a Twitter archive ZIP file, extracts the URLs corresponding to your tweets, retweets, replies, quote tweets, and liked tweets, and outputs the results in a [comma-separated values (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values) format that you can easily use with other software tools.
+_Taupe_ (a loose acronym of <ins><b>T</b></ins>witter <ins><b>a</b></ins>rchive <ins><b>U</b></ins>RL <ins><b>p</b></ins>ars<ins><b>e</b></ins>r) takes a Twitter archive ZIP file, extracts the URLs corresponding to your tweets, retweets, replies, quote tweets, and liked tweets, and outputs the results in a [comma-separated values (CSV)](https://en.wikipedia.org/wiki/Comma-separated_values) format that you can easily use with other software tools. Once you have [installed it](#installation), using `taupe` is easy:
+```shell
+# Extract tweets, retweets, replies, and quote tweets:
+taupe /path/to/your/twitter-archive.zip
 
+# Extract likes:
+taupe --extract likes /path/to/your/twitter-archive.zip
+
+# Learn more:
+taupe --help
+```
 
 ## Installation
 
@@ -31,7 +40,7 @@ There are multiple ways of installing Taupe.  Please choose the alternative that
 
 ### _Alternative 1: installing Taupe using `pipx`_
 
-You can use [pipx](https://pypa.github.io/pipx/) to install Taupe. Pipx will install it into a separate Python environment that isolates the dependencies needed by Taupe from other Python programs on your system, and yet the resulting `taupe` command wil be executable from any shell &ndash; like any normal program on your computer. If you do not already have `pipx` on your system, it can be installed in a variety of easy ways and it is best to consult [Pipx's installation guide](https://pypa.github.io/pipx/installation/) for instructions. Once you have pipx on your system, you can install Taupe with the following command:
+[Pipx](https://pypa.github.io/pipx/) lets you install Python programs in a way that isolates Python dependencies, and yet the resulting `taupe` command can be run from any shell and directory &ndash; like any normal program on your computer. If you use `pipx` on your system, you can install Taupe with the following command:
 ```sh
 pipx install taupe
 ```
@@ -90,7 +99,7 @@ taupe -c /path/to/twitter-archive.zip
 
 ### The structure of the output
 
-The output produced by `taupe` differs depending on whether you are extracting tweets or "likes".  The option `--extract` controls both the content and the format of the output. The following options are recognized:
+The option `--extract` controls both the content and the format of the output. The following options are recognized:
 
 | Value            | Synonym        | Output |
 |------------------|----------------|--------|
