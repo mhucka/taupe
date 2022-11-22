@@ -8,7 +8,7 @@ authors:
 abstract: Twitter archive URL parser
 repository-code: "https://github.com/mhucka/taupe"
 type: software
-version: 1.0.0
+version: 1.1.0
 license-url: "https://github.com/mhucka/taupe/blob/main/LICENSE"
 keywords:
   - Twitter
@@ -18,5 +18,5 @@ keywords:
   - comma separated values
   - JSON
   - software
-date-released: 2022-11-18
+date-released: 2022-11-21
 

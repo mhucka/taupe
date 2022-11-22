@@ -21,7 +21,7 @@ Please see the file "LICENSE" for more information.
 #  |    by the Makefile. Manual changes to these values will be lost.      |
 #  ╰────────────────────── Notice ── Notice ── Notice ─────────────────────╯
 
-__version__     = '1.0.0'
+__version__     = '1.1.0'
 __description__ = 'Taupe: a tool to extract URLs from your personal Twitter archive'
 __url__         = 'https://github.com/mhucka/taupe'
 __author__      = 'Mike Hucka'
