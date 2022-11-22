@@ -138,8 +138,8 @@ Command-line options summary
     log('starting.')
     log('command line: ' + str(sys.argv))
 
-    extract = 'tweets' if extract == 'E' else extract
-    if extract not in ('tweets', 'likes'):
+    extract = 'tweets' if extract == 'E' else extract.lower()
+    if not extract.startswith('tweet') and not extract.startswith('like'):
         stop('Unrecognized value for --extract option: ' + extract, ExitCode.bad_arg)
 
     archive_file = '-' if not archive_file else archive_file[0]
