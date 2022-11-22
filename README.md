@@ -90,14 +90,24 @@ taupe -c /path/to/twitter-archive.zip
 
 ### The structure of the output
 
-The output produced by `taupe` differs depending on whether you are extracting tweets or "likes".
+The output produced by `taupe` differs depending on whether you are extracting tweets or "likes".  The option `--extract` controls both the content and the format of the output. The following options are recognized:
 
-#### Tweets
+| Value            | Synonym        | Output |
+|------------------|----------------|--------|
+| `all-tweets`     | `tweets`       | CSV table with all tweets and details (default) |
+| `my-tweets`      |                | list of URLs of only your original tweets |
+| `retweets`       |                | list of URLs of tweets that are retweets |
+| `quoted-tweets`  | `quote-tweets` | list of URLs of other tweets you quoted |
+| `replied-tweets` | `reply-tweets` | list of URLs of other tweets you replied to |
+| `liked`          | `likes`        | list of URLs of tweets you "liked" |
 
-When using `--extract tweets` (the default), `taupe` produces a table with four columns.  Each row of the table corresponds to a type of event in the Twitter timeline: a tweet, a retweet, a reply to another tweet, or a quote tweet. The values in the columns provide details about the event. The following is a summary of the structure:
+
+#### `all-tweets`
+
+When using `--extract all-tweets` (the default), `taupe` produces a table with four columns.  Each row of the table corresponds to a type of event in the Twitter timeline: a tweet, a retweet, a reply to another tweet, or a quote tweet. The values in the columns provide details about the event. The following is a summary of the structure:
 
 | Column&nbsp;1 | Column 2 | Column 3 | Column 4 |
-|:-------------:|----------|--------|--------|
+|:-------------:|----------|----------|----------|
 | tweet timestamp in ISO format  | The&nbsp;URL of the tweet | The type; one of `tweet`, `reply`, `retweet`, or `quote` | (For type `reply` or `quote`.) The URL of the original or source tweet |
 
 The last column only has a value for replies and quote-tweets; in those cases, the URL in the column refers to the tweet being replied to or the tweet being quoted.  The fourth column does not have a value for retweets even though it would be desirable, because the Twitter archive &ndash; strangely &ndash; does not provide the URLs of retweeted tweets.
@@ -111,10 +121,29 @@ Here is an example of the output:
 ...
 ```
 
+#### `my-tweets`
 
-#### Likes
+When using `--extract my-tweets`, the output is just a single column (a list) of URLs, one per line, of just your original tweets. This list corresponds exactly to column 2 in the `--extract all-tweets` case above.
 
-When using the option `--extract likes`, the output will only contain one column: the URLs of the "liked" tweets. `taupe` cannot provide more detail because the Twitter archive format does not contain date/time information for "likes".
+
+#### `retweets`
+
+When using `--extract retweets`, the output is a single column (a list) of URLs, one per line, of tweets that are retweets of other tweets. This list corresponds to the values of column 2 above when the type is `retweet`. **Important**: the Twitter archive does not contain the original tweet's URL, only the URL of your retweet. Consequently, the output for `--extract retweets` is _your_ retweet's URL, not the URL of the source tweet.
+
+
+#### `quoted-tweets`
+
+When using `--extract quoted-tweets`, the output is a list of the URLs of other tweets that you have quoted. It corresponds to the subset of column 4 values above when the type is "quote". Note that these are the source tweet URLs, not the URLs of your tweets.
+
+
+#### `replied-tweets`
+
+When using `--extract replied-tweets`, the output is a list of the URLs of other tweets that you have replied to. It corresponds to the subset of column 4 values above when the type is "reply". Note that these are the source tweet URLs, not the URLs of your tweets.
+
+
+#### `likes`
+
+When using the option `--extract likes`, the output will only contain one column: the URLs of the "liked" tweets. `taupe` cannot provide more detail because the Twitter archive format does not contain date/time information for "likes". (This is also why "likes" are _not_ part of the output when `--extract all-tweets` is used &ndash; there is no possible value for column 1.)
 
 Here is an example of the output when using `--extract likes` in combination with `--canonical-urls`:
 ```
@@ -141,13 +170,14 @@ The following table summarizes all the command line options available.
 
 | Short&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   | Long&nbsp;form&nbsp;opt&nbsp;&nbsp; | Meaning | Default |  |
 |---------|--------------------|----------------------|---------|---|
-| `-c`    | `--canonical-urls` | Normalize Twitter URLs | Leave URLs unnormalized| |
+| `-c`    | `--canonical-urls` | Normalize Twitter URLs | Leave as-is| |
 | `-h`    | `--help`           | Print help info and exit | | |
-| `-e`_E_ | `--extract`_E_     | Extract `tweets` or `likes`? | `tweets` | |
-| `-o`_O_ | `--output`_O_      | Write output to file _O_ | Write to the terminal | ✦ |
-| `-V`    | `--version`        | Print program version info and exit | | |
-| `-@`_OUT_ | `--debug`_OUT_   | Debugging mode; write trace to _OUT_ | Normal mode | ⚐ |
+| `-e`_E_ | `--extract`_E_     | Extract URL type _E_ | `all-tweets` | ⚑ |
+| `-o`_O_ | `--output`_O_      | Write output to file _O_ | Terminal | ✦ |
+| `-V`    | `--version`        | Print program version & exit | | |
+| `-@`_OUT_ | `--debug`_OUT_   | Write debug output to _OUT_ |  | ⚐ |
 
+ ⚑ &nbsp; Recognized values: `all-tweets`, `tweets`, `my-tweets`, `retweets`, `quoted-tweets`, `replied-tweets`, and `likes`. See [section above](#the-structure-of-the-output) for more information. <br>
 ✦ &nbsp; To write to the console, you can also use the character `-` as the value of _O_; otherwise, _O_ must be the name of a file where the output should be written.<br>
 ⚐ &nbsp; To write to the console, use the character `-` as the value of _OUT_; otherwise, _OUT_ must be the name of a file where the output should be written.
 

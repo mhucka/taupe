@@ -22,6 +22,7 @@ if sys.version_info <= (3, 8):
     exit(1)
 
 # Note: this code uses lazy loading.  Additional imports are made later.
+from   commonpy.data_structures import CaseFoldDict
 import errno
 import plac
 from   sidetrack import set_debug, log
@@ -29,15 +30,38 @@ from   sidetrack import set_debug, log
 from   .exit_codes import ExitCode
 
 
+# Constants.
+# .............................................................................
+
+# Mapping of recognized --extract argument values to canonical names.
+EXTRACT_OPTIONS = CaseFoldDict({'all-tweets'     : 'all-tweets',
+                                'tweets'         : 'all-tweets',
+                                'my-tweets'      : 'my-tweets',
+                                'my-tweet'       : 'my-tweets',
+                                'my'             : 'my-tweets',
+                                'mine'           : 'my-tweets',
+                                'retweets'       : 'retweets',
+                                'retweet'        : 'retweets',
+                                'quoted-tweets'  : 'quote-tweets',
+                                'quote-tweets'   : 'quote-tweets',
+                                'quoted'         : 'quote-tweets',
+                                'replied-tweets' : 'reply-tweets',
+                                'reply-tweets'   : 'reply-tweets',
+                                'replied'        : 'reply-tweets',
+                                'reply'          : 'reply-tweets',
+                                'likes'          : 'likes',
+                                'liked'          : 'likes',
+                                'like'           : 'likes'})
+
 # Main program.
 # .............................................................................
 
 @plac.annotations(
-    canonical_urls = ('convert URLs to canonical Twitter URL form'    , 'flag'  , 'c'),
-    extract        = ('extract tweets or likes? (default: tweets)'    , 'option', 'e'),
-    output         = ('write the output to file "O" (default: stdout)', 'option', 'o'),
-    version        = ('print program version info and exit'           , 'flag'  , 'V'),
-    debug          = ('write debug trace to "OUT" ("-" for console)'  , 'option', '@'),
+    canonical_urls = ('convert URLs to canonical Twitter URL form'       , 'flag'  , 'c'),
+    extract        = ('extract info "E" (default: tweets)'               , 'option', 'e'),
+    output         = ('write output to destination "O" (default: stdout)', 'option', 'o'),
+    version        = ('print program version info and exit'              , 'flag'  , 'V'),
+    debug          = ('write debug trace to "OUT" ("-" for console)'     , 'option', '@'),
     archive_file   = 'path to Twitter archive ZIP file',
 )
 def main(canonical_urls = False, extract = 'E', output = 'O', version = False,
@@ -51,27 +75,40 @@ of tweets, replies, retweets, and quote tweets, and print the results:
   taupe /path/to/twitter-archive.zip
 
 If instead you want taupe to extract the URLs of "liked" tweets (see the next
-section for the difference), use the optional argument --extract likes:
+section for the difference), use the optional argument '--extract likes':
 
   taupe --extract likes /path/to/twitter-archive.zip
 
 The URLs produced by taupe will be, by default, as they appear in the archive,
 which means they will have account names in them. If you prefer to normalize
-the URLs to the form https://twitter.com/twitter/status/TWEETID, use the
-optional argument --canonical-urls:
+the URLs to the canonical form https://twitter.com/twitter/status/TWEETID, use
+the optional argument '--canonical-urls':
 
   taupe --canonical-urls /path/to/twitter-archive.zip
 
 If you want to send the output to a file instead of the terminal, you can use
-the option --output and give it a destination file:
+the option '--output' and give it a destination file:
 
   taupe --output /tmp/urls.txt --canonical-urls /path/to/twitter-archive.zip
 
 The structure of the output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using --extract tweets (the default), taupe produces a table with four
-columns.  Each row of the table corresponds to a tweet of some kind. The
+The option '--extract' controls both the content and the format of the output.
+The following options are recognized:
+
+  Value           Synonym       Output
+  ------------    -------       -----------------------------------------------
+  all-tweets      tweets        CSV table with all tweets and details (default)
+  my-tweets                     list of URLs of only your original tweets
+  retweets                      list of URLs of tweets that are retweets
+  quoted-tweets   quote-tweets  list of URLs of (other) tweets you quoted
+  replied-tweets  reply-tweets  list of URLs of (other) tweets you replied to
+
+  liked           likes         list of URLs of tweets you "liked"
+
+When using '--extract all-tweets' (the default), taupe produces a table with
+four columns.  Each row of the table corresponds to a tweet of some kind. The
 values in the columns provide details:
 
   Column 1    Column 2    Column 3        Column 4
@@ -80,31 +117,53 @@ values in the columns provide details:
 
 The last column only has a value for replies and quote-tweets; in those cases,
 it provides the URL of the tweet being replied to or the tweet being quoted.
-(The fourth column does not have a value for retweets even though it would be
-desirable, because the Twitter archive -- strangely -- does not provide the
-URLs of retweeted tweets.)
+The fourth column does not have a value for retweets even though it would be
+desirable, because the Twitter archive (strangely) does not provide the
+URLs of retweeted tweets. Note also that this format does NOT include your
+"liked" tweets; those are available using a different option described below.
 
-When using --extract likes, the output will only contain one column: the URLs
-of the "liked" tweets. Taupe cannot provide more details (not even timestamps)
-because the Twitter archive format does not contain the information.
+When using '--extract my-tweets', the output is just a single column (a list)
+of URLs, one per line, corresponding to just your original tweets. This list
+corresponds exactly to column 2 in the '--extract all-tweets' case above.
+
+When using '--extract retweets', the output is a single column (a list) of
+URLs, one per line, of tweets that are retweets of other tweets. This list
+corresponds to the values of column 2 above when the type is 'retweet'.
+IMPORTANT: the Twitter archive does not contain the original tweet's URL,
+only the URL of your retweet. Consequently, the output of '--extract retweets'
+is YOUR retweet's URL, not the URL of the source tweet.
+
+When using '--extract quoted-tweets', the output is a list of the URLs of
+other people's tweets that you have quoted. It corresponds to the subset of
+column 4 values above when the type is "quote"; i.e., the source tweet URL,
+not the URL of your tweet.
+
+When using '--extract replied-tweets', the output is a list of the URLs of
+other people's tweets that you have replied to. It corresponds to the subset
+of column 4 values above when the type is "reply"; i.e., the source tweet URL,
+not the URL of your tweet.
+
+Finally, when using '--extract likes', the output will contain a list of the
+URLs of tweets you have "liked" on Twitter. Taupe cannot provide more details
+(not even timestamps) because the Twitter archive format does not contain the
+information.
 
 Other options recognized by taupe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Running taupe with the option --help will make it print help text and exit
+Running taupe with the option '--help' will make it print help text and exit
 without doing anything else.
 
-The option --output controls where taupe writes the output. If the value
-given to --output is "-" (a single dash), the output is written to the
+The option '--output' controls where taupe writes the output. If the value
+given to '--output' is "-" (a single dash), the output is written to the
 terminal (stdout). Otherwise, the value must be a file.
 
-If given the --version option, this program will print its version and other
+If given the '--version' option, this program will print its version and other
 information, and exit without doing anything else.
 
-If given the --debug argument, taupe will output a detailed trace of what it
-is doing. The debug trace will be sent to the given destination, which can be
-"-" to indicate console output, or a file path to send the debug output to a
-file.
+If given the '--debug' argument, taupe will output details about what it is
+doing. The debug trace will be sent to the given destination, which can be "-"
+to indicate console output, or a file path to send the debug output to a file.
 
 Return values
 ~~~~~~~~~~~~~
@@ -138,9 +197,11 @@ Command-line options summary
     log('starting.')
     log('command line: ' + str(sys.argv))
 
-    extract = 'tweets' if extract == 'E' else extract.lower()
-    if not extract.startswith('tweet') and not extract.startswith('like'):
+    extract = 'all-tweets' if extract == 'E' else extract
+    if extract not in EXTRACT_OPTIONS:
         stop('Unrecognized value for --extract option: ' + extract, ExitCode.bad_arg)
+    else:
+        requested = EXTRACT_OPTIONS[extract]
 
     archive_file = '-' if not archive_file else archive_file[0]
     if archive_file == '-' and sys.stdin.isatty():
@@ -170,11 +231,9 @@ Command-line options summary
             import io
             archive_file = io.BytesIO(sys.stdin.buffer.read())
 
-        log(f'parsing {archive_file} to extract {extract}')
-        data = parsed_data(archive_file, extract, canonical_urls)
-
-        log(f'writing output to {output}')
-        write_data(data, output)
+        data = parsed_data(archive_file, requested, canonical_urls)
+        filtered_data = filter(None, map(data_filter(requested), data))
+        write_data(filtered_data, output)
     except KeyboardInterrupt:
         # Catch it, but don't treat it as an error; just stop execution.
         log('keyboard interrupt received')
@@ -210,14 +269,34 @@ Command-line options summary
 # Miscellaneous helpers.
 # .............................................................................
 
-def username_from(account_file):
-    '''Return the "username" from the account.js file in a Twitter archive.'''
-    import json
-    # The file starts w/ "window.YTD.account.part0 = ". Skip it; rest is json.
-    account_json = json.loads(account_file[27:])
-    username = account_json[0]['account']['username']
-    log(f'found username "{username}"')
-    return username
+# The functions for extracting URLs from the .js files (currently only likes.js
+# and tweets.js) return a common intermediate format consisting of a generator
+# that produces 4-tuples:
+#
+#    (date,  url of my tweet,  type,  url of referenced tweet)
+#
+# The "type" can be one of "tweet", "reply", "retweet", "quote", or "like".
+# Some of the slots in the tuple are not filled in for all types. Notably, if
+# the type is "likes", the date and tweet url are empty (because for a "liked"
+# tweet, it only makes sense to talk about the referenced tweet's URL).
+# Conversely, if we're not extracting "likes", then the referenced tweet url
+# slot only has a value for types "quote" and "retweet".
+#
+# This kind of funneling of all types into a common intermediate form, even
+# though there is heterogeneity in the underlying data, is done to shorten
+# and simplify the code and not really for performance reasons. Performance
+# is currently not a concern because the expectation is that users won't run
+# this program very often anyway.
+
+def data_filter(requested):
+    return {
+        'all-tweets'  : lambda row: ','.join(row),
+        'my-tweets'   : lambda row: row[1],
+        'retweets'    : lambda row: row[1] if row[2] == 'retweet' else '',
+        'quote-tweets': lambda row: row[3] if row[2] == 'quote' else '',
+        'reply-tweets': lambda row: row[3] if row[2] == 'reply' else '',
+        'likes'       : lambda row: row[3],
+    }.get(requested)
 
 
 def likes_from(likes_file, username, canonical_urls = False):
@@ -228,11 +307,12 @@ def likes_from(likes_file, username, canonical_urls = False):
     log(f'extracted {len(likes_json)} likes from the likes file')
     likes_urls = (item['like']['expandedUrl'] for item in likes_json)
     account = 'twitter' if canonical_urls else username
-    return (url.replace('i/web', account) for url in likes_urls)
+    # Return the same 4-tuple format as tweets_from(...).
+    return (('', '', 'like', url.replace('i/web', account)) for url in likes_urls)
 
 
 def tweets_from(tweets_file, username, canonical_urls = False):
-    '''Return the tweet URLs from the tweets.js file in a Twitter archive.'''
+    '''Return tuples of parsed data from tweets.js in a Twitter archive.'''
     from dateutil.parser import parse
     import json
     import re
@@ -240,6 +320,14 @@ def tweets_from(tweets_file, username, canonical_urls = False):
     ending_in_twitter_url = re.compile(r'.*(https://t.co/\S+)$')
 
     # Helper functions.
+
+    def user_from_tweet_url(url):
+        if canonical_urls:
+            return 'twitter'
+        else:
+            # Extract USERNAME from https://twitter.com/USERNAME/status/TWEETID
+            fragment = url[20:]
+            return fragment[: fragment.find('/')]
 
     def tweet_url(tweet):
         account = 'twitter' if canonical_urls else username
@@ -252,10 +340,11 @@ def tweets_from(tweets_file, username, canonical_urls = False):
     def tweet_data(tweet):
         tdate = tweet_date(tweet)
         turl  = tweet_url(tweet)
+
+        # Figure out the type & extracting reference URLs. Look for specific
+        # cases; default case is normal tweet, possibly with embedded media.
         ttype = 'tweet'
         tref  = ''
-
-        # Now the hard part: figuring out the type & extracting reference URLs.
         if tweet.get('in_reply_to_status_id_str', None):
             # Easiest case: replies.
             ttype = 'reply'
@@ -280,53 +369,45 @@ def tweets_from(tweets_file, username, canonical_urls = False):
         elif (match := ending_in_twitter_url.match(tweet['full_text'])):
             # This can be either a quote tweet or just a tweet with media in it.
             embedded_url = match.group(1)
-            for item in tweet['entities']['urls']:
-                if item['url'] == embedded_url:
-                    expanded_url = item['expanded_url']
-                    if expanded_url.startswith('https://twitter.com'):
-                        # Looks like it's a quote tweet.
-                        if canonical_urls:
-                            author = 'twitter'
-                        else:
-                            author = user_from_tweet_url(expanded_url)
-                    else:
-                        # Surprise! Not a quote tweet.
-                        break
-                    tweet_id = expanded_url[expanded_url.rfind('/') + 1:]
-                    ttype = 'quote'
-                    tref = 'https://twitter.com/' + author + '/status/' + tweet_id
+            for entity in tweet['entities']['urls']:
+                if entity['url'] != embedded_url:
+                    continue
+                # Found the entity info for the URL we pulled from the text.
+                expanded_url = entity['expanded_url']
+                if not expanded_url.startswith('https://twitter.com'):
+                    # This is not a quote tweet after all.
                     break
-            # Default case is normal tweets, possibly with embedded media.
+                author = user_from_tweet_url(expanded_url)
+                tweet_id = expanded_url[expanded_url.rfind('/') + 1:]
+                tref = 'https://twitter.com/' + author + '/status/' + tweet_id
+                ttype = 'quote'
+                break
 
-        if tref:
-            return [tdate, turl, ttype, tref]
-        else:
-            return [tdate, turl, ttype]
+        return (tdate, turl, ttype, tref)
 
-    # Skip the "window.YTD.tweets.part0 =" at the start of the file.
+    # The 26 is to skip the "window.YTD.tweets.part0 =" text at the start.
     all_tweets = json.loads(tweets_file[26:])
     log(f'found a total of {len(all_tweets)} tweets in the tweets file')
-    tweets = []
-    for tweet_json in all_tweets:
-        tweet = tweet_json['tweet']
-        tweets.append(','.join(tweet_data(tweet)))
-    return sorted(tweets)
+    return sorted(tweet_data(tweet_json['tweet']) for tweet_json in all_tweets)
 
 
-def user_from_tweet_url(url):
-    # URL of the form https://twitter.com/USERNAME/status/TWEETID
-    fragment = url[20:]
-    return fragment[: fragment.find('/')]
+def username_from(account_file):
+    '''Return the "username" from the account.js file in a Twitter archive.'''
+    import json
+    # The file starts w/ "window.YTD.account.part0 = ". Skip it; rest is json.
+    account_json = json.loads(account_file[27:])
+    username = account_json[0]['account']['username']
+    log(f'found username "{username}"')
+    return username
 
 
-def parsed_data(source_zip, extract_what, canonical_urls):
+def parsed_data(source_zip, requested, canonical_urls):
     from zipfile import is_zipfile, ZipFile, BadZipFile, LargeZipFile
     if not is_zipfile(source_zip):
         stop('The input does not appear to be a ZIP file.', ExitCode.bad_arg)
+    log(f'parsing Twitter data to extract {requested}')
     try:
         username = None
-        extract_likes = (extract_what != 'tweets')
-        log('parsing Twitter data')
         with ZipFile(source_zip) as zf:
             # First find the account name because we need it to construct URLs.
             for item in zf.namelist():
@@ -339,7 +420,7 @@ def parsed_data(source_zip, extract_what, canonical_urls):
 
             # Now extract the tweets.
             for item in zf.namelist():
-                if item == 'data/like.js' and extract_likes:
+                if item == 'data/like.js' and requested == 'likes':
                     with zf.open(item) as file_:
                         return likes_from(file_.read(), username, canonical_urls)
                     break
@@ -355,6 +436,7 @@ def parsed_data(source_zip, extract_what, canonical_urls):
 
 
 def write_data(rows, dest):
+    log(f'writing output to {dest}')
     try:
         if dest == '-':
             print(*rows, flush = True, sep = '\n')
