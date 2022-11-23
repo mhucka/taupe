@@ -215,6 +215,7 @@ To the author's knowledge, Taupe is the only tool that will directly and easily 
 * [fork of TWINT](https://github.com/woluxwolu/twint) &ndash; a fork of the now-defunct [Twitter Intelligence Tool](https://github.com/twintproject/twint). 
 * [pleroma-bot](https://github.com/robertoszek/pleroma-bot) &ndash; bot for mirroring your favorite Twitter accounts in the Fediverse as well as migrating your own to the Fediverse using a Twitter archive.
 * [twitter-archive-analysis](https://github.com/dangoldin/twitter-archive-analysis) &ndash; a script to analyze your Twitter archive.
+* [twitter-archive-reader](https://github.com/alkihis/twitter-archive-reader) &ndash; explore tweets, DMs, media and more in a Twitter archive.
 
 
 ## Getting help
