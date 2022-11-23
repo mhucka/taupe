@@ -212,7 +212,7 @@ I would be happy to receive your help and participation if you are interested.  
 
 ## License
 
-This software is Copyright (C) 2022, by Michael Hucka.  This software is freely distributed under a MIT-clause type license.  Please see the [LICENSE](LICENSE) file for more information.
+This software is Copyright (C) 2022, by Michael Hucka.  This software is freely distributed under the MIT license.  Please see the [LICENSE](LICENSE) file for more information.
 
 
 ## Acknowledgments
