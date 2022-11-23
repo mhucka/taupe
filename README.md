@@ -12,6 +12,7 @@ A simple program to extract the URLs of your tweets, retweets, replies, quote tw
 * [Installation](#installation)
 * [Usage](#usage)
 * [Known issues and limitations](#known-issues-and-limitations)
+* [Relationships to other similar tools](#relationships-to-other-similar-tools)
 * [Getting help](#getting-help)
 * [Contributing](#contributing)
 * [License](#license)
@@ -198,6 +199,22 @@ This program assumes that the Twitter archive ZIP file is in the format which Tw
 The Twitter archive format for "likes" contains only the tweet identifier and the text of the tweet; consequently, `taupe` cannot provide date/time information for this case.
 
 This program does all its work in memory, which means that `taupe`'s ability to process a given archive depends on its size and how much RAM the computer has. It has only been tested with modest-sized archives. It is unknown how it will behave with exceptionally large archives.
+
+
+## Relationships to other similar tools
+
+To the author's knowledge, Taupe is the only tool that will directly and easily extract the URLs of tweets and "likes" from a Twitter archive ZIP file. There do exist other software tools for working with Twitter archives; the following is a (possibly incomplete) list:
+* [twitter-archive-parser](https://github.com/timhutton/twitter-archive-parser) &ndash; convert the contents of a Twitter archive into and extract other information such as lists of followers.
+* [Save Your Threads](https://archive.social) &ndash; lets you download signed PDFs of Twitter URLs.
+* [tweetback Twitter Archive](https://github.com/tweetback/tweetback) &ndash; "Take ownership of your Twitter data".
+* [twitter-tools](https://github.com/selfawaresoup/twitter-tools) &ndash; perform various operations such as get details about specific tweets using the Twitter API
+* [Twitter-Archive](https://github.com/jarulsamy/Twitter-Archive) &ndash; a Python CLI tool to download media from bookmarked tweets.
+* [get_twitter_bookmarks.py](https://gist.github.com/divyajyotiuk/9fb29c046e1dfcc8d5683684d7068efe#file-get_twitter_bookmarks_v3-py) &ndash; extract the URLs from bookmarked tweets; requires first using your web browser's developer interface to grab Twitter's bookmarks JSON data.
+* [archive.alt-text.org](https://github.com/alt-text-org/www.alt-text.org) &ndash; a tool for saving the alt text you've written on Twitter.
+* [twitter-archive-tweets](https://observablehq.com/@enjalot/twitter-archive-tweets) &ndash; a notebook to use as a starting point for processing tweets from your Twitter archive.
+* [fork of TWINT](https://github.com/woluxwolu/twint) &ndash; a fork of the now-defunct [Twitter Intelligence Tool](https://github.com/twintproject/twint). 
+* [pleroma-bot](https://github.com/robertoszek/pleroma-bot) &ndash; bot for mirroring your favorite Twitter accounts in the Fediverse as well as migrating your own to the Fediverse using a Twitter archive.
+* [twitter-archive-analysis](https://github.com/dangoldin/twitter-archive-analysis) &ndash; a script to analyze your Twitter archive.
 
 
 ## Getting help
