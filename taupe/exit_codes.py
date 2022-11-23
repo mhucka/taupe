@@ -9,9 +9,9 @@ Michael Hucka <mhucka@caltech.edu> -- Caltech Library
 Copyright
 ---------
 
-Copyright (c) 2022 by the California Institute of Technology.  This code is
-open-source software released under a 3-clause BSD license.  Please see the
-file "LICENSE" for more information.
+Copyright (c) 2022 by the Michael hucka.
+This code is open-source software released under the MIT license.
+Please see the file "LICENSE" for more information.
 '''
 
 from aenum import Enum, MultiValue

@@ -2,7 +2,7 @@
 
 A simple program to extract the URLs of your tweets, retweets, replies, quote tweets, and "likes" from a personal Twitter archive.
 
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg?style=flat-square)](https://choosealicense.com/licenses/bsd-3-clause)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://choosealicense.com/licenses/mit)
 [![Latest release](https://img.shields.io/github/v/release/mhucka/taupe.svg?style=flat-square&color=purple&label=Release)](https://github.com/mhucka/taupe/releases)
 
 
@@ -212,12 +212,12 @@ I would be happy to receive your help and participation if you are interested.  
 
 ## License
 
-This software is Copyright (C) 2022, by Michael Hucka and the California Institute of Technology (Pasadena, California, USA).  This software is freely distributed under a 3-clause BSD type license.  Please see the [LICENSE](LICENSE) file for more information.
+This software is Copyright (C) 2022, by Michael Hucka.  This software is freely distributed under a MIT-clause type license.  Please see the [LICENSE](LICENSE) file for more information.
 
 
 ## Acknowledgments
 
-This work is a personal project developed by the author, using computing facilities and other resources of the [California Institute of Technology Library](https://www.library.caltech.edu).
+This work is a personal project developed by the author, using computing equipment owned by the [California Institute of Technology Library](https://www.library.caltech.edu).
 
 The [vector artwork](https://thenounproject.com/icon/bird-233023/) of a bird, used as the icon for this repository, was created by [Noe Araujo](https://thenounproject.com/noearaujo/) from the Noun Project.  It is licensed under the Creative Commons [CC-BY 3.0](https://creativecommons.org/licenses/by/3.0/) license. I manually changed the color to be a shade of taupe.
 

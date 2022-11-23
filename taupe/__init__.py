@@ -9,8 +9,8 @@ Michael Hucka <mhucka@caltech.edu>
 Copyright
 ---------
 
-Copyright (c) 2022 by Michael Hucka and the California Institute of Technology.
-This code is open-source software released under a 3-clause BSD license.
+Copyright (c) 2022 by Michael Hucka.
+This code is open-source software released under the MIT license.
 Please see the file "LICENSE" for more information.
 '''
 
@@ -26,7 +26,7 @@ __description__ = 'Taupe: a tool to extract URLs from your personal Twitter arch
 __url__         = 'https://github.com/mhucka/taupe'
 __author__      = 'Mike Hucka'
 __email__       = 'mhucka@caltech.edu'
-__license__     = 'BSD 3-clause license'
+__license__     = 'MIT license'
 
 
 # Miscellaneous utilities.
