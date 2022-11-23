@@ -233,19 +233,19 @@ clean: clean-dist clean-build clean-release clean-other
 really-clean: clean really-clean-dist really-clean-build
 
 completely-clean: really-clean clean-other
-	rm -rf $(builddir) $(distdir)
+	rm -rf build dist
+
+clean-build:;
+	rm -rf $(builddir)/lib $(builddir)/bdist.*
 
 clean-dist: vars
 	rm -fr $(distdir)/$(name) $(distdir)/$(name)-$(version)-py3-none-any.whl
 
-really-clean-dist:;
-	rm -fr $(distdir)
+really-clean-build: clean-build
+	rm -rf $(builddir)/*.*
 
-clean-build:;
-	rm -rf $(builddir)
-
-really-clean-build:;
-	rm -rf $(builddir)/lib $(builddir)/bdist.*
+really-clean-dist: clean-dist
+	rm -fr $(distdir)/*.*
 
 clean-release:;
 	rm -rf $(name).egg-info codemeta.json.bak $(initfile).bak README.md.bak
