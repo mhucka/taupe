@@ -1,13 +1,7 @@
 '''
 Taupe: Extract the URLs from your personal Twitter archive
 
-Authors
--------
-
-Michael Hucka <mhucka@caltech.edu>
-
-Copyright
----------
+This file is part of https://github.com/mhucka/taupe/.
 
 Copyright (c) 2022 by Michael Hucka.
 This code is open-source software released under the MIT license.

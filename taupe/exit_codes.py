@@ -1,13 +1,7 @@
 '''
 exit_codes.py: define exit codes for program return values
 
-Authors
--------
-
-Michael Hucka <mhucka@caltech.edu> -- Caltech Library
-
-Copyright
----------
+This file is part of https://github.com/mhucka/taupe/.
 
 Copyright (c) 2022 by Michael hucka.
 This code is open-source software released under the MIT license.
