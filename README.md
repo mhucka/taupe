@@ -178,14 +178,14 @@ If given the `--debug` argument, `taupe` will output a detailed trace of what it
 
 The following table summarizes all the command line options available.
 
-| Short&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   | Long&nbsp;form&nbsp;opt&nbsp;&nbsp; | Meaning | Default |  |
-|---------|--------------------|----------------------|---------|---|
-| `-c`    | `--canonical-urls` | Normalize Twitter URLs | Leave as-is| |
-| `-h`    | `--help`           | Print help info and exit | | |
-| `-e`_E_ | `--extract`_E_     | Extract URL type _E_ | `all-tweets` | ⚑ |
-| `-o`_O_ | `--output`_O_      | Write output to file _O_ | Terminal | ✦ |
-| `-V`    | `--version`        | Print program version & exit | | |
-| `-@`_OUT_ | `--debug`_OUT_   | Write debug output to _OUT_ |  | ⚐ |
+| Short&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    | Long&nbsp;form&nbsp;opt&nbsp;&nbsp; | Meaning | Default |  |
+|---------------|------------------------|----------------------|---------|---|
+| `-c`          | `--canonical-urls`     | Normalize Twitter URLs | Leave as-is| |
+| `-h`          | `--help`               | Print help info and exit | | |
+| `-e`&nbsp;_E_ | `--extract`&nbsp;_E_   | Extract URL type _E_ | `all-tweets` | ⚑ |
+| `-o`&nbsp;_O_ | `--output`&nbsp;_O_    | Write output to file _O_ | Terminal | ✦ |
+| `-V`          | `--version`            | Print program version & exit | | |
+| `-@`&nbsp;_OUT_ | `--debug`&nbsp;_OUT_ | Write debug output to _OUT_ |  | ⚐ |
 
  ⚑ &nbsp; Recognized values: `all-tweets`, `tweets`, `my-tweets`, `retweets`, `quoted-tweets`, `replied-tweets`, and `likes`. See [section above](#the-structure-of-the-output) for more information. <br>
 ✦ &nbsp; To write to the console, you can also use the character `-` as the value of _O_; otherwise, _O_ must be the name of a file where the output should be written.<br>
